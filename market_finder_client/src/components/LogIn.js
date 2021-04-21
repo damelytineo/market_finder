@@ -20,17 +20,16 @@ class LogIn extends Component {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
+            credentials: "include", //sends cross-origin cookie
             body: JSON.stringify(this.state) 
         }
 
         fetch('http://localhost:3000/login', configObj)
         .then(response => response.json())
-        .then(user => {
-            console.log(user)
-            this.props.handleLogin(user);
+        .then(userData => {
+            this.props.handleLogin(userData);
         });
     }
-
 
     render() {
         return (
