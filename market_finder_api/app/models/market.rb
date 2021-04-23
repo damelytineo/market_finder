@@ -1,3 +1,4 @@
 class Market < ApplicationRecord
-    belongs_to :user
+    has_many :user_markets
+    has_many :users, through: :user_markets
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_05_144618) do
+ActiveRecord::Schema.define(version: 2021_04_23_034551) do
 
   create_table "markets", force: :cascade do |t|
     t.string "name"
@@ -22,10 +22,15 @@ ActiveRecord::Schema.define(version: 2021_04_05_144618) do
     t.string "days_of_operation"
     t.string "hours"
     t.string "season_dates"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_markets_on_user_id"
+  end
+
+  create_table "user_markets", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "market_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
