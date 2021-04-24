@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const marketsUrl = "https://data.cityofnewyork.us/resource/8vwk-6iz2.json"
+//const marketsUrl = "https://data.cityofnewyork.us/resource/8vwk-6iz2.json"
 
 class Markets extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class Markets extends Component {
     }
 
     componentDidMount() {
-        fetch(marketsUrl)
+        fetch('http://localhost:3000/markets')
             .then(response => response.json())
             .then(markets => {
                // this.setState({ filteredMarkets: markets })
