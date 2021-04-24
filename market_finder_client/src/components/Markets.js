@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-//const marketsUrl = "https://data.cityofnewyork.us/resource/8vwk-6iz2.json"
-
 class Markets extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +56,7 @@ class Markets extends Component {
                 {this.state.filteredMarkets.map( (market, index) => //index - unique identifier 
                     <div key={index}>
                         <p>{market.borough}</p>
-                        <p>{market.marketname}</p>
+                        <p>{market.name}</p>
                         <hr />
                     </div>
                 )}
