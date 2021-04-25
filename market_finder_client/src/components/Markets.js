@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 class Markets extends Component {
     constructor(props) {
         super(props);
-        this.state = { filteredMarkets: [] };
+        this.state = {
+            filteredMarkets: [],
+        };
         this.markets = [];
     }
 
@@ -11,13 +13,12 @@ class Markets extends Component {
         fetch('http://localhost:3000/markets')
             .then(response => response.json())
             .then(markets => {
-               // this.setState({ filteredMarkets: markets })
                 this.markets = markets;
             });
     }
 
     filterByBorough = (borough) => {
-        this.setState({ filteredMarkets:  this.markets.filter(market => market.borough === borough)});
+        this.setState({ filteredMarkets: this.markets.filter(market => market.borough === borough) });
     }
 
     handleOnChange = (e) => {
@@ -25,15 +26,24 @@ class Markets extends Component {
         this.filterByBorough(borough);
     }
 
-    // listEach() {
-    //     return this.state.list.map(market => 
-    //         <div>
-    //             <p>{market.borough}</p>
-    //             <p>{market.marketname}</p>
-    //             <hr />
-    //         </div>
-    //     );
-    // }
+    handleClick = (id) => {
+        let configObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({ "market_id": id })
+        }
+
+        fetch('http://localhost:3000/user_markets', configObj)
+            .then(response => response.json())
+            .then(marketData => {
+                console.log(marketData);
+                //HANDLE DATA
+            });
+    }
 
     render() {
         return (
@@ -52,11 +62,13 @@ class Markets extends Component {
                 </form>
                 <br />
                 <br />
-                {/* {this.listEach()} */}
-                {this.state.filteredMarkets.map( (market, index) => //index - unique identifier 
-                    <div key={index}>
+                {this.state.filteredMarkets.map(market =>
+                    <div key={market.id}>
                         <p>{market.borough}</p>
                         <p>{market.name}</p>
+                        <br />
+                        <p>{market.address}</p>
+                        <button value={market.id} onClick={() => this.handleClick(market.id)}>{market.id}ADD</button>
                         <hr />
                     </div>
                 )}
@@ -66,3 +78,4 @@ class Markets extends Component {
 }
 
 export default Markets;
+

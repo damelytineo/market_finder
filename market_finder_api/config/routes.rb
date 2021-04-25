@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :markets
   resources :users
   resources :sessions
+  resources :user_markets
 
   # get 'login', to: 'sessions#create'
   post 'login', to: 'sessions#create'
