@@ -5,6 +5,8 @@ class Home extends Component {
         return (
             <div>
                 USER HOME PAGE
+                <br/>
+                <button >Markets</button>
             </div>
         );
     }
