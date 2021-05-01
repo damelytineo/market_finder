@@ -11,7 +11,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 # require "sprockets/railtie"
-require "rails/test_unit/railtie"
+# require "rails/test_unit/railtie"
 # require 'rack/cors'
 
 # Require the gems listed in Gemfile, including any gems
@@ -34,3 +34,5 @@ module MarketFinderApi
     config.api_only = false
   end
 end
+
+# config.generators.test_framework :rspec
