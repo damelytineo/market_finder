@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  subject { described_class.new }
 
   it "is valid with valid attributes" do
-    expect(User.new).to be_valid
+    subject.username = "Anything"
+    subject.email= "Anything"
+    subject.password = "Anything"
+    expect(subject).to be_valid
   end
 
   it "is not valid without a username" do
@@ -28,3 +32,46 @@ RSpec.describe User, type: :model do
   end
 
 end
+
+
+# require 'rails_helper'
+
+# RSpec.describe User, type: :model do
+
+#   subject { 
+#     described_class.new(
+#       username: "Anything",
+#       email: "Anything",
+#       password: "Anything"
+#     )
+#   }
+
+#   describe "Validations" do 
+
+#     it "is valid with valid attributes" do
+#       expect(subject).to be_valid
+#     end
+
+#     it "is not valid without a username" do
+#       subject.username = nil
+#       expect(subject).to_not be_valid
+#     end
+
+#     it "is not valid without a email" do
+#       subject.email = nil
+#       expect(subject).to_not be_valid
+#     end
+
+#     it "is not valid without a password" do
+#       subject.password = nil
+#       expect(subject).to_not be_valid
+#     end
+
+#     it "is not a valid password" do
+#       subject.password = "12345"
+#       subject.password = "12345678999"
+#       expect(subject).to_not be_valid
+#     end
+#   end
+
+# end
