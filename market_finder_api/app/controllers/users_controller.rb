@@ -5,11 +5,10 @@ class UsersController < ApplicationController
     def show
         render json: @user
     end
-
     
     # POST /users
     def create
-        @user = User.new(user_params)
+        user = User.new(user_params)
     end
 
 

@@ -69,6 +69,10 @@ end
 
 #     it "is not a valid password" do
 #       subject.password = "12345"
+#       expect(subject).to_not be_valid
+#     end
+
+#     it "is not a valid password" do
 #       subject.password = "12345678999"
 #       expect(subject).to_not be_valid
 #     end

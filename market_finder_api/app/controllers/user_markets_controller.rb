@@ -6,9 +6,9 @@ class UserMarketsController < ApplicationController
         attributes = user_market_params.clone
         attributes[:user_id] = current_user.id
 
-        @user_market = UserMarket.create(attributes)
+        user_market = UserMarket.create(attributes)
 
-        render json: @user_market
+        render json: user_market
     end
 
     private
