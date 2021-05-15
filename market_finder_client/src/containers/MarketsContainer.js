@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Markets from '../components/Markets'
+import Markets from '../components/markets/Markets'
 
 class MarketsContainer extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class MarketsContainer extends Component {
         fetch('http://localhost:3000/markets')
             .then(response => response.json())
             .then(markets => {
-                this.setState({markets: markets});
+                this.setState({ markets: markets });
             });
     }
 

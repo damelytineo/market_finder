@@ -4,10 +4,12 @@ Rails.application.routes.draw do
   resources :sessions
   resources :user_markets
 
-  # get 'login', to: 'sessions#create'
+  resources :users do
+    resources :markets
+  end
+
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-
   get 'logged_in', to: 'sessions#logged_in'
 
   

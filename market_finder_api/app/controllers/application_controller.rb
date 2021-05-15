@@ -3,12 +3,12 @@ class ApplicationController < ActionController::Base
     helper_method :logged_in?, :current_user
   
     def logged_in?
-      # if current user, logged_in true
-      !!@current_user
+      # if current user method true, logged_in true
+      !!current_user
     end
   
     def current_user  
-      # //define user
+      # define user
       if session[:user_id]
         @current_user = User.find(session[:user_id])
       end

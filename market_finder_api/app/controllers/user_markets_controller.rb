@@ -1,14 +1,16 @@
 class UserMarketsController < ApplicationController
 
     def create
-        #if not logged in then handle error properly (since current_user.id will be nil)
-        # message: valid cookie required
         attributes = user_market_params.clone
-        attributes[:user_id] = current_user.id
 
-        user_market = UserMarket.create(attributes)
-
-        render json: user_market
+        if current_user
+            attributes[:user_id] = current_user.id
+            user_market = UserMarket.create(attributes)        
+            render json: user_market
+        else
+            # current_user.id == nil
+            render json: { status: 401, message: 'Valid cookie required'}, status: :unauthorized
+        end
     end
 
     private

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MarketCard from './MarketCard';
+import MarketCard from '../markets/MarketCard';
 
 class Markets extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class Markets extends Component {
     }
 
     filterByBorough = (borough) => {
-        this.setState({ filteredMarkets: this.props.markets.filter(market => market.borough === borough) }); //HERE
+        this.setState({ filteredMarkets: this.props.markets.filter(market => market.borough === borough) });
     }
 
     handleOnChange = (e) => {

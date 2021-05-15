@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MarketCard = ({ market }) => { //object 
+const MarketCard = ({ market, hideAdd }) => {
 
     const handleClick = (id) => {
         let configObj = {
@@ -16,7 +16,6 @@ const MarketCard = ({ market }) => { //object
         fetch('http://localhost:3000/user_markets', configObj)
             .then(response => response.json())
             .then(marketData => {
-                console.log(marketData);
                 //HANDLE DATA
             });
     }
@@ -26,7 +25,8 @@ const MarketCard = ({ market }) => { //object
             <p>{market.name}</p>
             <p>{market.street_address}</p>
             <p>{market.borough}</p>
-            <button value={market.id} onClick={() => handleClick(market.id)}>ADD</button>
+            {hideAdd ? "" : <button value={market.id} onClick={() => handleClick(market.id)}>ADD</button>}
+
         </div>
     );
 };
