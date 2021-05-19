@@ -2,7 +2,7 @@ import React from 'react';
 
 const MarketCard = ({ market, hideAdd }) => {
 
-    const handleClick = (id) => {
+    const handleAdd = (id) => {
         let configObj = {
             method: "POST",
             headers: {
@@ -20,12 +20,21 @@ const MarketCard = ({ market, hideAdd }) => {
             });
     }
 
+    const handleClick = (id) => {
+        fetch(`http://localhost:3000/markets/${id}`) 
+            .then(response => response.json())
+            .then(marketData => {
+            });
+    }
+
     return (
         <div>
             <p>{market.name}</p>
             <p>{market.street_address}</p>
             <p>{market.borough}</p>
-            {hideAdd ? "" : <button value={market.id} onClick={() => handleClick(market.id)}>ADD</button>}
+            <button value={market.id} onClick={() => handleClick(market.id)} >MORE...</button>
+            <br/>
+            {hideAdd ? "" : <button value={market.id} onClick={() => handleAdd(market.id)}>ADD</button>}
 
         </div>
     );
