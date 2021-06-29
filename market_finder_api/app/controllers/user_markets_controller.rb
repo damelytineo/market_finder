@@ -4,7 +4,8 @@ class UserMarketsController < ApplicationController
         attributes = user_market_params.clone
 
         if current_user
-            attributes[:user_id] = current_user.id
+            #via attributes set user_market's user_id to current_user before instantiating 
+            attributes[:user_id] = current_user.id 
             user_market = UserMarket.create(attributes)        
             render json: user_market
         else
