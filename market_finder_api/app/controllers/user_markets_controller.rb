@@ -1,10 +1,11 @@
 class UserMarketsController < ApplicationController
 
     def create
-        attributes = user_market_params.clone
+        attributes = user_market_params.clone 
+        # allows us to change an obj keeping a copy of the original 
 
         if current_user
-            #via attributes set user_market's user_id to current_user before instantiating 
+            # via attributes set user_market's user_id to current_user before instantiating 
             attributes[:user_id] = current_user.id 
             user_market = UserMarket.create(attributes)        
             render json: user_market

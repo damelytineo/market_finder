@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
     end
 
     def destroy
-        reset_session
+        # reset_session
         render json: { status: 200, user: {}, logged_in: false }
     end
 

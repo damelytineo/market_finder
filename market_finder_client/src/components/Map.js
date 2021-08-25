@@ -3,6 +3,7 @@ import { withGoogleMap, GoogleMap, } from 'react-google-maps';
 
 class Map extends Component {
     render() {
+        //set default here
         const Map = withGoogleMap(props => (
             <GoogleMap defaultCenter={{ lat: 40.670986, lng: -73.908194 }} defaultZoom={15} />
         ));

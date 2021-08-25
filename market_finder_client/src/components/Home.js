@@ -9,6 +9,8 @@ class Home extends Component {
         return (
             <div>
                 USER HOME PAGE
+                <br />
+                <br />
                 <p>User's saved markets:</p>
                 <UserMarkets current_user={this.props.current_user} />
                 <br />

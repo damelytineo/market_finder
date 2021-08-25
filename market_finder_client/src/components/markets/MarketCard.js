@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Market from '../markets/Market'
 
-const MarketCard = ({ market, hideAdd }) => {
+class MarketCard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            displayMarket: false,
+        }
+    }
 
-    const handleAdd = (id) => {
+    handleAdd = (id) => {
         let configObj = {
             method: "POST",
             headers: {
@@ -12,32 +19,25 @@ const MarketCard = ({ market, hideAdd }) => {
             credentials: "include",
             body: JSON.stringify({ "market_id": id })
         }
-
-        fetch('http://localhost:3000/user_markets', configObj)
-            .then(response => response.json())
-            .then(marketData => {
-                //HANDLE DATA
-            });
     }
 
-    const handleClick = (id) => {
-        fetch(`http://localhost:3000/markets/${id}`) 
-            .then(response => response.json())
-            .then(marketData => {
-            });
+
+    render() {
+        return (
+            <div>
+                {this.state.displayMarket ? <Market market={this.props.market} /> :
+                    <div>
+                        <p>{this.props.market.name}</p>
+                        <p>{this.props.market.street_address}</p>
+                        <p>{this.props.market.borough}</p>
+                        <button value={this.props.market.id} onClick={() => this.setState({ displayMarket: true })}>MORE...</button>
+                        <br />
+                        {this.props.hideAdd ? "" : <button value={this.props.market.id} onClick={() => this.handleAdd(this.props.market.id)}>ADD</button>}
+                    </div>}
+            </div>
+        );
     }
-
-    return (
-        <div>
-            <p>{market.name}</p>
-            <p>{market.street_address}</p>
-            <p>{market.borough}</p>
-            <button value={market.id} onClick={() => handleClick(market.id)} >MORE...</button>
-            <br/>
-            {hideAdd ? "" : <button value={market.id} onClick={() => handleAdd(market.id)}>ADD</button>}
-
-        </div>
-    );
-};
+}
 
 export default MarketCard;
+

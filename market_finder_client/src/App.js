@@ -22,7 +22,7 @@ class App extends Component {
             .then(res => res.json())
             .then(data => {
                 if (data.logged_in) {
-                    //hide login form and set current_user 
+                    //hide login form and set current_user else keep showing form 
                     this.setState({ displayLogIn: false, current_user: data.user.id });
                 }
             });
@@ -32,7 +32,7 @@ class App extends Component {
         return (
             <div>
                 {this.state.displayLogIn
-                    ? <LogIn handleLogin={this.handleLogin} /> : <Router current_user={this.state.current_user} />} 
+                    ? <LogIn handleLogin={this.handleLogin} /> : <Router current_user={this.state.current_user} />}
             </div>
         );
     }
