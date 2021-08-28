@@ -10,13 +10,12 @@ class Market extends Component {
     }
     componentDidMount() {
         for (let i = 0; i < this.props.userMarkets.length; i++) {
-            console.log((this.props.userMarkets)[i])
             if ((this.props.userMarkets)[i].id == this.props.market.id) {
                 console.log("already in list")
+                this.setState({ displayAdd: false })
             }
         }
     }
-
 
     handleAdd = (id) => {
         let configObj = {
@@ -28,6 +27,10 @@ class Market extends Component {
             credentials: "include",
             body: JSON.stringify({ "market_id": id })
         }
+
+        fetch('http://localhost:3000//user_markets', configObj)
+
+        this.setState({ displayAdd: false })
     }
 
     render() {

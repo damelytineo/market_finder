@@ -2,29 +2,14 @@ import React, { Component } from 'react';
 import MarketCard from './MarketCard'
 
 class UserMarkets extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            markets: []
-        }
-    }
-
-    componentDidMount() {
-        fetch(`http://localhost:3000/users/${this.props.current_user}/markets`)
-            .then(response => response.json())
-            .then(markets => {
-                this.setState({ markets: markets });
-            });
-
-    }
 
     render() {
         return (
-
             <div>
-                {this.state.markets.map(market =>
+                <p>User's saved markets:</p>
+                {this.props.userMarkets.map(market =>
                     <div key={market.id}>
-                        <MarketCard market={market} hideAdd={true} userMarkets={this.state.markets} />
+                        <MarketCard market={market} userMarkets={this.props.userMarkets} />
                         <hr />
                     </div>
                 )}

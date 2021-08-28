@@ -6,7 +6,6 @@ class MarketCard extends Component {
         super(props);
         this.state = {
             displayMarket: true,
-            userMarkets: []
         }
     }
 

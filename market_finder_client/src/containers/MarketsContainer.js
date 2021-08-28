@@ -22,8 +22,8 @@ class MarketsContainer extends Component {
     render() {
         return (
             <Switch>
-                <Route exact path={`${this.props.match.url}/:market_id`} render={routerProps => <Market {...routerProps} markets={this.state.markets}/>} />
-                <Route path="/markets" render={()=> <Markets markets={this.state.markets}/>} />
+                <Route exact path={`/markets/:market_id`} render={routerProps => <Market {...routerProps} userMarkets={this.props.userMarkets} markets={this.state.markets}/>} />
+                <Route path="/markets" render={()=> <Markets markets={this.state.markets} userMarkets={this.props.userMarkets}/>} />
                 <Redirect from="*" to="/index.html" />
             </Switch>
         );

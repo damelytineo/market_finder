@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LogIn from './components/LogIn';
-import Router from './components/Router';
+import Home from './components/Home';
 
 class App extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class App extends Component {
         return (
             <div>
                 {this.state.displayLogIn
-                    ? <LogIn handleLogin={this.handleLogin} /> : <Router current_user={this.state.current_user} />}
+                    ? <LogIn handleLogin={this.handleLogin} /> : <Home current_user={this.state.current_user} />}
             </div>
         );
     }

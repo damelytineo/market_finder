@@ -37,7 +37,7 @@ class Markets extends Component {
                 <br />
                 {this.state.filteredMarkets.map(market =>
                     <div key={market.id}>
-                        <MarketCard market={market} />
+                        <MarketCard market={market} userMarkets={this.props.userMarkets}/>
                         <hr />
                     </div>
                 )}
