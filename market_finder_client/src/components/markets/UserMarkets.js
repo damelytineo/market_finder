@@ -10,19 +10,21 @@ class UserMarkets extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:3000/users/${this.props.current_user}/markets`) 
+        fetch(`http://localhost:3000/users/${this.props.current_user}/markets`)
             .then(response => response.json())
             .then(markets => {
                 this.setState({ markets: markets });
             });
+
     }
 
     render() {
         return (
+
             <div>
                 {this.state.markets.map(market =>
                     <div key={market.id}>
-                        <MarketCard market={market} hideAdd={true} />
+                        <MarketCard market={market} hideAdd={true} userMarkets={this.state.markets} />
                         <hr />
                     </div>
                 )}
