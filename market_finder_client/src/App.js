@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LogIn from './components/LogIn';
 import Home from './components/Home';
+import Container from 'react-bootstrap/Container';
 
 class App extends Component {
     constructor(props) {
@@ -30,10 +31,10 @@ class App extends Component {
 
     render() {
         return (
-            <div>
+            <Container>
                 {this.state.displayLogIn
                     ? <LogIn handleLogin={this.handleLogin} /> : <Home current_user={this.state.current_user} />}
-            </div>
+            </Container>
         );
     }
 }

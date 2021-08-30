@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Map from '../Map';
+import Button from 'react-bootstrap/Button';
+
 
 class Market extends Component {
     constructor(props) {
@@ -11,7 +13,6 @@ class Market extends Component {
     componentDidMount() {
         for (let i = 0; i < this.props.userMarkets.length; i++) {
             if ((this.props.userMarkets)[i].id == this.props.market.id) {
-                console.log("already in list")
                 this.setState({ displayAdd: false })
             }
         }
@@ -40,10 +41,9 @@ class Market extends Component {
                 <h5>{this.props.market.latitude}</h5>
                 <h5>{this.props.market.longitude}</h5>
 
-                <Map />
+                <Map latitude={this.props.market.latitude} longitude={this.props.market.longitude} />
 
-                {this.state.displayAdd ? <button value={this.props.market.id} onClick={() => this.handleAdd(this.props.market.id)}>ADD</button> : ""}
-
+                {this.state.displayAdd ? <Button variant="success" value={this.props.market.id} onClick={() => this.handleAdd(this.props.market.id)}>ADD</Button> : ""}
             </div>
         );
     }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import UserMarkets from '../components/markets/UserMarkets'
 import MarketsContainer from '../containers/MarketsContainer'
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
@@ -24,9 +23,6 @@ class Home extends Component {
     render() {
         return (
             <div>
-                USER HOME PAGE
-                <br />
-                <br />
                 <Switch>
                     <Route exact path='/' component={() => <UserMarkets userMarkets={this.state.markets} />} />
                     <Route path='/markets' component={() => <MarketsContainer userMarkets={this.state.markets} />} />

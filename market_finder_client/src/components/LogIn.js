@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 class LogIn extends Component {
     state = {
@@ -36,17 +41,19 @@ class LogIn extends Component {
     render() {
         return (
             <div>
-                <form>
-                    <div>
-                        <input placeholder="Username" type="text" value={this.state.username} onChange={this.onChange} name="username" />
-                    </div>
-
-                    <div>
-                        <input placeholder="Password" type="text" value={this.state.password} onChange={this.onChange} name="password" />
-                    </div>
-
-                    <button onClick={(event) => this.onClick(event)}> Submit </button>
-                </form>
+                <Form>
+                    <Row>
+                        <Col xs={3}>
+                            <Form.Control type="text" placeholder="Username" value={this.state.username} onChange={this.onChange} name="username" />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={3} >
+                            <Form.Control type="text" placeholder="Password" value={this.state.password} onChange={this.onChange} name="password" />
+                            <Button variant="success" onClick={(event) => this.onClick(event)}> Submit </Button>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
         );
     }

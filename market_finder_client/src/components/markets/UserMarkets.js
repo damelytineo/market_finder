@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import MarketCard from './MarketCard'
+import MarketCard from './MarketCard';
+import Row from 'react-bootstrap/Row';
+
 
 class UserMarkets extends Component {
 
     render() {
         return (
             <div>
-                <p>User's saved markets:</p>
+                <Row>
+                    <p>User's saved markets:</p>
+                </Row>
+
                 {this.props.userMarkets.map(market =>
-                    <div key={market.id}>
-                        <MarketCard market={market} userMarkets={this.props.userMarkets} />
-                        <hr />
-                    </div>
+                    <Row key={market.id}><MarketCard market={market} userMarkets={this.props.userMarkets} /></Row>
                 )}
             </div>
         );
