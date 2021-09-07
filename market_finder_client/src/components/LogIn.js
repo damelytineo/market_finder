@@ -74,8 +74,6 @@ const LogIn = (props) => {
     const [password, setPassword] = useState('');
 
     const onClick = (e) => {
-        console.log(username);
-        console.log(password)
         e.preventDefault();
         let configObj = {
             method: "POST",

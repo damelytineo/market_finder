@@ -43,21 +43,21 @@ import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 
 const Home = (props) => {
-    let [markets, setMarkets] = useState([]);
+    let [uMarkets, setMarkets] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:3000/users/${props.current_user}/markets`)
             .then(response => response.json())
             .then(markets => {
-                setMarkets(markets);
+                setMarkets([...markets]);
             });
     }, [])
 
     return (
         <div>
             <Switch>
-                <Route exact path='/' component={() => <UserMarkets userMarkets={markets} />} />
-                <Route path='/markets' component={() => <MarketsContainer userMarkets={markets} />} />
+                <Route exact path='/' component={() => <UserMarkets userMarkets={uMarkets} />} />
+                <Route path='/markets' component={() => <MarketsContainer userMarkets={uMarkets} />} />
             </Switch>
             <br />
         </div>
