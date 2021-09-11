@@ -46,20 +46,20 @@ const Home = (props) => {
     let [uMarkets, setMarkets] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${props.current_user}/markets`)
+        fetch(`http://localhost:3000/users/${props.currentUser}/markets`)
             .then(response => response.json())
             .then(markets => {
-                setMarkets([...markets]);
+                setMarkets(markets);
             });
     }, [])
 
     return (
         <div>
+            {/* Set up conditional for first render  */}
             <Switch>
                 <Route exact path='/' component={() => <UserMarkets userMarkets={uMarkets} />} />
                 <Route path='/markets' component={() => <MarketsContainer userMarkets={uMarkets} />} />
             </Switch>
-            <br />
         </div>
     );
 };

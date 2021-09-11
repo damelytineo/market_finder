@@ -80,7 +80,7 @@ const Market = (props) => {
             credentials: "include",
             body: JSON.stringify({ "market_id": id })
         }
-        fetch('http://localhost:3000//user_markets', configObj)
+        fetch('http://localhost:3000/user_markets', configObj)
         setDisplayAdd(false)
     }
 

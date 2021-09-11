@@ -70,7 +70,7 @@ const App = () => {
     return (
         <Container>
             {displayLogIn
-                ? <LogIn handleLogin={handleLogin} /> : <Home current_user={currentUser} />}
+                ? <LogIn handleLogin={handleLogin} /> : <Home currentUser={currentUser} />}
         </Container>
     );
 };
