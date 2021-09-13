@@ -68,7 +68,9 @@ const Market = (props) => {
                 setDisplayAdd(false)
             }
         }
-    }, [])
+        //testing
+        return () => console.log('This return function will run when the component is unmounted');
+    }, [props.userMarkets, props.market.id])
 
     const handleAdd = (id) => {
         let configObj = {

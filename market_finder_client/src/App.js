@@ -8,7 +8,7 @@
 //         super(props);
 //         this.state = {
 //             displayLogIn: true,
-//             current_user: ''
+//             currentUser: ''
 //         };
 //     }
 
@@ -24,7 +24,7 @@
 //             .then(data => {
 //                 if (data.logged_in) {
 //                     //hide login form and set current_user else keep showing form 
-//                     this.setState({ displayLogIn: false, current_user: data.user.id });
+//                     this.setState({ displayLogIn: false, currentUser: data.user.id });
 //                 }
 //             });
 //     }
@@ -33,7 +33,7 @@
 //         return (
 //             <Container>
 //                 {this.state.displayLogIn
-//                     ? <LogIn handleLogin={this.handleLogin} /> : <Home current_user={this.state.current_user} />}
+//                     ? <LogIn handleLogin={this.handleLogin} /> : <Home currentUser={this.state.currentUser} />}
 //             </Container>
 //         );
 //     }

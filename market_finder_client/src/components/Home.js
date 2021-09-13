@@ -51,15 +51,17 @@ const Home = (props) => {
             .then(markets => {
                 setMarkets(markets);
             });
-    }, [])
+    }, [props.currentUser])
 
     return (
         <div>
-            {/* Set up conditional for first render  */}
-            <Switch>
-                <Route exact path='/' component={() => <UserMarkets userMarkets={uMarkets} />} />
-                <Route path='/markets' component={() => <MarketsContainer userMarkets={uMarkets} />} />
-            </Switch>
+            {(uMarkets.length > 0) ?
+                <Switch>
+
+                    <Route exact path='/' component={() => <UserMarkets userMarkets={uMarkets} />} />
+                    <Route path='/markets' component={() => <MarketsContainer userMarkets={uMarkets} />} />
+                </Switch>
+            : <div>Loading</div>}
         </div>
     );
 };
