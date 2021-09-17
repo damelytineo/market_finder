@@ -54,6 +54,7 @@ import Form from 'react-bootstrap/Form';
 
 const Markets = (props) => {
     let [filteredMarkets, setFilteredMarkets] = useState([]);
+    let [allMarkets, showAllMarkets] = useState(true);
 
     const filterByBorough = (borough) => {
         setFilteredMarkets(props.markets.filter(market => market.borough === borough));
@@ -62,8 +63,9 @@ const Markets = (props) => {
     const handleOnChange = (e) => {
         let borough = (e.target.value);
         filterByBorough(borough);
+        showAllMarkets(false);
     }
-    return (   
+    return (
         <div>
             <Form>
                 <Form.Select onChange={handleOnChange} defaultValue={'default'}>
@@ -75,12 +77,22 @@ const Markets = (props) => {
                     <option value="Staten Island">Staten Island</option>
                 </Form.Select>
             </Form>
-            {filteredMarkets.map(market =>
-                <div key={market.id}>
-                    <MarketCard market={market} userMarkets={props.userMarkets} />
-                    <hr />
-                </div>
-            )}
+
+            {(allMarkets) ?
+                props.markets.map(market =>
+                    <div key={market.id}>
+                        <MarketCard market={market} userMarkets={props.userMarkets} />
+                        <hr />
+                    </div>
+                )
+                :
+                filteredMarkets.map(market =>
+                    <div key={market.id}>
+                        <MarketCard market={market} userMarkets={props.userMarkets} />
+                        <hr />
+                    </div>
+                )
+            }
         </div>
     );
 };
