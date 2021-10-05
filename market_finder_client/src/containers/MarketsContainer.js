@@ -50,6 +50,7 @@ const MarketsContainer = (props) => {
 
     return (
         <Switch>
+            {/* <Market> content will depend on which market is clicked on - we can see this in url path */}
             <Route exact path={`/markets/:market_id`} render={routerProps => <Market {...routerProps} userMarkets={props.userMarkets} markets={markets} />} />
             <Route path="/markets" render={() => <Markets markets={markets} userMarkets={props.userMarkets} />} />
             <Redirect from="*" to="/index.html" />
