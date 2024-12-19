@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :markets
-  resources :users
+  resources :markets, only: [:index, :show]
   resources :sessions
   resources :user_markets
 

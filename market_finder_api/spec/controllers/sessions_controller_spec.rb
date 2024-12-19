@@ -1,4 +1,4 @@
-require "rails_helper"
+require "rails_helper.rb"
 
 RSpec.describe "User login", :type => :request do
 
