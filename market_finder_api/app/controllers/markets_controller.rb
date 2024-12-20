@@ -28,7 +28,8 @@ class MarketsController < ApplicationController
 
     def set_market
         @market = Market.find_by(id: params[:id])
-    unless @market
-        render json: { status: 404, message: 'Market not found. Please check the market ID or search the list of markets.' }, status: :not_found
+        unless @market
+            render json: { status: 404, message: 'Market not found. Please check the market ID or search the list of markets.' }, status: :not_found
+        end
     end
 end
