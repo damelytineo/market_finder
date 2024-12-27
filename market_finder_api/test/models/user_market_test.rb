@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class UserMarketTest < ActiveSupport::TestCase
@@ -9,14 +11,13 @@ class UserMarketTest < ActiveSupport::TestCase
     @user_market = UserMarket.new
   end
 
-  # test "market should be valid" do 
+  # test "market should be valid" do
   #   assert @user_market.valid?
   # end
 
-  test "market should have a user id" do 
-    # alongside model validations 
-    @user_market.user_id= ""
+  test 'market should have a user id' do
+    # alongside model validations
+    @user_market.user_id = ''
     assert_not @user_market.valid?
   end
-
 end

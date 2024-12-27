@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,38 +12,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_034551) do
-
+ActiveRecord::Schema.define(version: 20_210_423_034_551) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "markets", force: :cascade do |t|
-    t.string "name"
-    t.string "borough"
-    t.string "street_address"
-    t.integer "district"
-    t.float "latitude"
-    t.float "longitude"
-    t.string "days_of_operation"
-    t.string "hours"
-    t.string "season_dates"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'markets', force: :cascade do |t|
+    t.string 'name'
+    t.string 'borough'
+    t.string 'street_address'
+    t.integer 'district'
+    t.float 'latitude'
+    t.float 'longitude'
+    t.string 'days_of_operation'
+    t.string 'hours'
+    t.string 'season_dates'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "user_markets", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "market_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'user_markets', force: :cascade do |t|
+    t.integer 'user_id'
+    t.integer 'market_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "email"
-    t.string "password_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'users', force: :cascade do |t|
+    t.string 'username'
+    t.string 'email'
+    t.string 'password_digest'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
-
 end

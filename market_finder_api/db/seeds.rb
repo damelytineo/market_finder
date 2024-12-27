@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -11,16 +13,16 @@
 response = RestClient.get 'https://data.cityofnewyork.us/resource/8vwk-6iz2.json'
 json = JSON.parse(response)
 
-    json.each do |market|
-        Market.create(
-        name: market["marketname"],
-        borough: market["borough"],
-        street_address: market["streetaddress"],
-        district: market["community_district"],
-        latitude: market["latitude"],
-        longitude: market["longitude"],
-        days_of_operation: market["daysoperation"],
-        hours: market["hoursoperations"],
-        season_dates: market["seasondates"]
-        )
-    end
+json.each do |market|
+  Market.create(
+    name: market['marketname'],
+    borough: market['borough'],
+    street_address: market['streetaddress'],
+    district: market['community_district'],
+    latitude: market['latitude'],
+    longitude: market['longitude'],
+    days_of_operation: market['daysoperation'],
+    hours: market['hoursoperations'],
+    season_dates: market['seasondates']
+  )
+end

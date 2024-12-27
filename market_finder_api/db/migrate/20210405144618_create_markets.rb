@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMarkets < ActiveRecord::Migration[5.2]
   def change
     create_table :markets do |t|
@@ -7,7 +9,7 @@ class CreateMarkets < ActiveRecord::Migration[5.2]
       t.integer :district
       t.float :latitude
       t.float :longitude
-      t.string :days_of_operation 
+      t.string :days_of_operation
       t.string :hours
       t.string :season_dates
 

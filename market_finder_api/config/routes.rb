@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  resources :markets, only: [:index, :show]
+  resources :markets, only: %i[index show]
   resources :sessions
   resources :user_markets
 
@@ -11,6 +13,5 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   get 'logged_in', to: 'sessions#logged_in'
 
-  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

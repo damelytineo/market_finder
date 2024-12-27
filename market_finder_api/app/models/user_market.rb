@@ -1,6 +1,8 @@
-class UserMarket < ApplicationRecord
-    belongs_to :user
-    belongs_to :market
+# frozen_string_literal: true
 
-    validates_presence_of :user_id, :market_id
+class UserMarket < ApplicationRecord
+  belongs_to :user
+  belongs_to :market
+
+  validates_presence_of :user_id, :market_id
 end
