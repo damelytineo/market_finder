@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import MarketCard from './MarketCard';
-import Row from 'react-bootstrap/Row';
-
+import React, { Component } from "react";
+import MarketCard from "./MarketCard";
 
 class UserMarkets extends Component {
+  render() {
+    return (
+      <div className="space-y-4">
+        <div className="text-lg font-semibold">
+          <p>User's saved markets:</p>
+        </div>
 
-    render() {
-        return (
-            <div>
-                <Row>
-                    <p>User's saved markets:</p>
-                </Row>
-
-                {this.props.userMarkets.map(market =>
-                    <Row key={market.id}><MarketCard market={market} userMarkets={this.props.userMarkets} /></Row>
-                )}
-            </div>
-        );
-    }
+        {this.props.userMarkets.map((market) => (
+          <div
+            key={market.id}
+            className="border border-gray-300 rounded-lg p-4 shadow-md"
+          >
+            <MarketCard market={market} userMarkets={this.props.userMarkets} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default UserMarkets;
