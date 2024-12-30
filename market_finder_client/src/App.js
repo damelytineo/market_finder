@@ -3,7 +3,6 @@ import LogIn from "./components/LogIn.js";
 import Home from "./components/Home.js";
 
 const App = () => {
-  const [displayLogIn, setDisplayLogIn] = useState(true);
   const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
@@ -17,7 +16,6 @@ const App = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.logged_in) {
-          setDisplayLogIn(false);
           setCurrentUser(data.user.id);
         }
       });
@@ -26,10 +24,10 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        {displayLogIn ? (
-          <LogIn handleLogin={handleLogin} />
+        { currentUser ? (
+          <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
         ) : (
-          <Home currentUser={currentUser} />
+          <LogIn handleLogin={handleLogin} />
         )}
       </div>
     </div>

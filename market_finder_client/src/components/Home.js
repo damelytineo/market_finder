@@ -23,7 +23,11 @@ const Home = (props) => {
       },
       credentials: "include",
     };
-    fetch(`http://localhost:3000/logout`, configObj);
+    fetch(`http://localhost:3000/logout`, configObj)
+      .then((res) => res.json())
+      .then(() => {
+        props.setCurrentUser("");
+      })
   };
 
   return (
@@ -39,7 +43,10 @@ const Home = (props) => {
           <a
             href="/login"
             className="text-blue-500 hover:text-blue-700 transition"
-            onClick={() => logout()}
+            onClick={(e) => {
+              e.preventDefault();
+              logout();
+            }}
           >
             LOGOUT
           </a>
