@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Switch, Route } from "react-router-dom";
-import Markets from "../components/markets/Markets";
-import Market from "../components/markets/Market";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Markets from "../components/markets/Markets.js";
+import Market from "../components/markets/Market.js";
 
 const MarketsContainer = (props) => {
   const [markets, setMarkets] = useState([]);
@@ -15,27 +15,17 @@ const MarketsContainer = (props) => {
   }, []);
 
   return (
-    <Switch>
-      {/* <Market> content will depend on which market is clicked on - we can see this in url path */}
+    <Routes>
       <Route
-        exact
-        path={`/markets/:market_id`}
-        render={(routerProps) => (
-          <Market
-            {...routerProps}
-            userMarkets={props.userMarkets}
-            markets={markets}
-          />
-        )}
+        path=":market_id"
+        element={<Market userMarkets={props.userMarkets} markets={markets} />}
       />
       <Route
-        path="/markets"
-        render={() => (
-          <Markets markets={markets} userMarkets={props.userMarkets} />
-        )}
+        path="/"
+        element={<Markets markets={markets} userMarkets={props.userMarkets} />}
       />
-      <Redirect from="*" to="/index.html" />
-    </Switch>
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 

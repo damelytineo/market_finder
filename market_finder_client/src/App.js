@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import LogIn from "./components/LogIn";
-import Home from "./components/Home";
+import LogIn from "./components/LogIn.js";
+import Home from "./components/Home.js";
 
 const App = () => {
   const [displayLogIn, setDisplayLogIn] = useState(true);
@@ -17,7 +17,6 @@ const App = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.logged_in) {
-          //hide login form and set current_user else keep showing form
           setDisplayLogIn(false);
           setCurrentUser(data.user.id);
         }

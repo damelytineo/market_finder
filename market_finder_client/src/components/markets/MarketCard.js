@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Market from "../markets/Market";
+import Market from "../markets/Market.js";
 
 const MarketCard = (props) => {
   let [displayMarket, setDisplayMarket] = useState(false);

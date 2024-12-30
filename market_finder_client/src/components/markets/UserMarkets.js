@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MarketCard from "./MarketCard";
+import MarketCard from "./MarketCard.js";
 
 class UserMarkets extends Component {
   render() {

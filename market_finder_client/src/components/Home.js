@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import UserMarkets from "../components/markets/UserMarkets";
-import MarketsContainer from "../containers/MarketsContainer";
-import { BrowserRouter as Switch, Route } from "react-router-dom";
-import { withRouter } from "react-router";
+import UserMarkets from "../components/markets/UserMarkets.js";
+import MarketsContainer from "../containers/MarketsContainer.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Home = (props) => {
   let [uMarkets, setMarkets] = useState([]);
@@ -47,23 +46,24 @@ const Home = (props) => {
         </div>
       </nav>
 
-      {uMarkets.length > 0 ? (
-        <Switch>
-          <Route
-            exact
-            path="/"
-            component={() => <UserMarkets userMarkets={uMarkets} />}
-          />
-          <Route
-            path="/markets"
-            component={() => <MarketsContainer userMarkets={uMarkets} />}
-          />
-        </Switch>
-      ) : (
-        <div>Loading</div>
-      )}
+      <Router>
+        {uMarkets.length > 0 ? (
+          <Routes>
+            <Route
+              path="/"
+              element={<UserMarkets userMarkets={uMarkets} />}
+            />
+            <Route
+              path="/markets"
+              element={<MarketsContainer userMarkets={uMarkets} />}
+            />
+          </Routes>
+        ) : (
+          <div>Loading</div>
+        )}
+      </Router>
     </div>
   );
 };
 
-export default withRouter(Home);
+export default Home;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Map from "../Map";
+import Map from "../Map.js";
 
 const Market = (props) => {
   let [displayAdd, setDisplayAdd] = useState(true);

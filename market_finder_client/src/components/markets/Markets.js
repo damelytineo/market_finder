@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MarketCard from "../markets/MarketCard";
+import MarketCard from "../markets/MarketCard.js";
 
 const Markets = (props) => {
   let [filteredMarkets, setFilteredMarkets] = useState([]);
