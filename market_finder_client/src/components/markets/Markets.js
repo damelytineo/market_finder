@@ -17,14 +17,8 @@ const Markets = (props) => {
     showAllMarkets(false);
   };
   return (
-    <div>
-      <div>
-        <label
-          htmlFor="borough"
-          class="block text-sm/6 font-medium text-gray-900"
-        >
-          Filter by Borough
-        </label>
+    <div className="space-y-4">
+      <div className="p-4">
         <select
           id="borough"
           onChange={handleOnChange}
@@ -44,15 +38,13 @@ const Markets = (props) => {
 
       {allMarkets
         ? props.markets.map((market) => (
-            <div key={market.id}>
+            <div key={market.id} className="market-card">
               <MarketCard market={market} userMarkets={props.userMarkets} />
-              <hr />
             </div>
           ))
         : filteredMarkets.map((market) => (
-            <div key={market.id}>
+            <div key={market.id} className="market-card">
               <MarketCard market={market} userMarkets={props.userMarkets} />
-              <hr />
             </div>
           ))}
     </div>

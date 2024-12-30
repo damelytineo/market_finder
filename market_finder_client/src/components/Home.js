@@ -29,17 +29,17 @@ const Home = (props) => {
 
   return (
     <div>
-      <nav className="px-4 py-3 flex items-center justify-between">
+      <nav className="px-4 py-3 bg-gray-100 flex items-center justify-between shadow-sm">
         <div className="flex space-x-6">
-          <a href="/" className="hover:text-gray-400 transition">
+          <a href="/" className="text-blue-500 hover:text-blue-700 transition">
             HOME
           </a>
-          <a href="/markets" className="hover:text-gray-400 transition">
+          <a href="/markets" className="text-blue-500 hover:text-blue-700 transition">
             MARKETS
           </a>
           <a
             href="/login"
-            className="hover:text-gray-400 transition"
+            className="text-blue-500 hover:text-blue-700 transition"
             onClick={() => logout()}
           >
             LOGOUT
