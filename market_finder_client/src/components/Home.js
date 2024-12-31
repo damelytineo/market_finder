@@ -66,7 +66,7 @@ const Home = (props) => {
             />
           </Routes>
         ) : (
-          <div>Loading</div>
+          <div>Loading...</div>
         )}
       </Router>
     </div>

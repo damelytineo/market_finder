@@ -5,14 +5,20 @@ import Market from "../components/markets/Market.js";
 
 const MarketsContainer = (props) => {
   const [markets, setMarkets] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:3000/markets")
       .then((response) => response.json())
       .then((markets) => {
         setMarkets(markets);
+        setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Routes>

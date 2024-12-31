@@ -4,18 +4,9 @@ import Map from "../Map.js";
 const Market = (props) => {
   let [displayAdd, setDisplayAdd] = useState(true);
 
-  //useEffect is called after each render and when setState is used inside of it, it will cause the component to re-render which will call useEffect and so on...
-  //passing an empty array as a second argument is away around this. The effect function should be called once after the first render only.
   useEffect(() => {
-    for (let i = 0; i < props.userMarkets.length; i++) {
-      if (props.userMarkets[i].id === props.market.id) {
-        setDisplayAdd(false);
-      }
-    }
-    return () =>
-      console.log(
-        "This return function will run when the component is unmounted",
-      );
+    const marketExists = props.userMarkets.some((userMarket) => userMarket.id === props.market.id);
+    setDisplayAdd(!marketExists);
   }, [props.userMarkets, props.market.id]);
 
   const handleAdd = (id) => {
@@ -35,8 +26,6 @@ const Market = (props) => {
   return (
     <div>
       <h5 className="text-lg font-semibold">{props.market.name}</h5>
-      <h5 className="text-sm text-gray-600">{props.market.latitude}</h5>
-      <h5 className="text-sm text-gray-600">{props.market.longitude}</h5>
 
       <Map
         latitude={props.market.latitude}

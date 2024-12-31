@@ -13,13 +13,12 @@ const MarketCard = (props) => {
       {displayMarket ? (
         <Market market={props.market} userMarkets={props.userMarkets} />
       ) : (
-        <div>
-          <p>{props.market.name}</p>
-          <p>{props.market.street_address}</p>
-          <p>{props.market.borough}</p>
+        <div className="p-4 bg-white rounded-lg shadow-md">
+          <p className="font-semibold">{props.market.name}</p>
+          <p className="text-gray-600">{props.market.street_address}</p>
+          <p className="text-gray-600">{props.market.borough}</p>
           <button
             className="btn"
-            value={props.market.id}
             onClick={handleDisplay}
           >
             MORE...

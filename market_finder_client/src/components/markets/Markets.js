@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import MarketCard from "../markets/MarketCard.js";
 
 const Markets = (props) => {
-  let [filteredMarkets, setFilteredMarkets] = useState([]);
-  let [allMarkets, showAllMarkets] = useState(true);
+  let [filteredMarkets, setFilteredMarkets] = useState(props.markets);
 
   const filterByBorough = (borough) => {
     setFilteredMarkets(
@@ -13,9 +12,11 @@ const Markets = (props) => {
 
   const handleOnChange = (e) => {
     let borough = e.target.value;
-    filterByBorough(borough);
-    showAllMarkets(false);
+    if (borough !== "default") {
+      filterByBorough(borough);
+    }
   };
+
   return (
     <div className="space-y-4">
       <div className="p-4">
@@ -36,17 +37,11 @@ const Markets = (props) => {
         </select>
       </div>
 
-      {allMarkets
-        ? props.markets.map((market) => (
-            <div key={market.id} className="market-card">
-              <MarketCard market={market} userMarkets={props.userMarkets} />
-            </div>
-          ))
-        : filteredMarkets.map((market) => (
-            <div key={market.id} className="market-card">
-              <MarketCard market={market} userMarkets={props.userMarkets} />
-            </div>
-          ))}
+      {filteredMarkets.map((market) => (
+        <div key={market.id} className="market-card">
+          <MarketCard market={market} userMarkets={props.userMarkets} />
+        </div>
+      ))}
     </div>
   );
 };

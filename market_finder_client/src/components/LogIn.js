@@ -3,30 +3,37 @@ import React, { useState } from "react";
 const LogIn = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const onClick = (e) => {
+  const onSubmit= (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      setError("Both username and password are required.");
+      return;
+    }
     let configObj = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      credentials: "include", //sends cross-origin cookie
+      credentials: "include",
       body: JSON.stringify({ username, password }),
     };
     fetch("http://localhost:3000/login", configObj)
       .then((response) => response.json())
       .then((userData) => {
-        //lifting state up tp parent (App)
-        //once user signs in we want to make a fetch request to logged_in to set current_user
         props.handleLogin(userData);
+      })
+      .catch((error) => {
+        setError("Invalid username or password.");
       });
   };
 
   return (
     <div>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={onSubmit}>
+      {error && <div className="border px-4 py-3 rounded relative" role="alert">{error}</div>}
         <div className="flex items-center space-x-4">
           <div className="w-1/4">
             <input
@@ -51,8 +58,7 @@ const LogIn = (props) => {
             />
           </div>
           <button
-            type="button"
-            onClick={(event) => onClick(event)}
+            type="submit"
             className="btn"
           >
             Submit
