@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LogIn from "./components/LogIn.js";
 import Home from "./components/Home.js";
+import { LoadScript } from "@react-google-maps/api";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState("");
@@ -25,7 +26,9 @@ const App = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         { currentUser ? (
-          <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+            <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
+          </LoadScript>
         ) : (
           <LogIn handleLogin={handleLogin} />
         )}

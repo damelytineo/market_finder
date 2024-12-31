@@ -10,7 +10,7 @@ const UserMarkets = (props) => {
 
       {props.userMarkets.map((market) => (
         <div key={market.id} className="market-card">
-          <MarketCard market={market}/>
+          <MarketCard market={market} userMarkets={props.userMarkets}/>
         </div>
       ))}
     </div>

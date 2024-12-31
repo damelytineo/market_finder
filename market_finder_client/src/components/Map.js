@@ -1,7 +1,9 @@
-import React from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import React, { useEffect, useState, useRef } from "react";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 
 const Map = (props) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef();
   const containerStyle = {
     width: "300px",
     height: "300px",
@@ -12,12 +14,35 @@ const Map = (props) => {
     lng: props.longitude,
   };
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    });
+  
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+  
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
-        <Marker position={center} />
-      </GoogleMap>
-    </LoadScript>
+    <div ref={ref} style={{ height: "300px", width: "300px" }}>
+      {isVisible && (
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
+          <Marker position={center} />
+        </GoogleMap>
+      )}
+    </div>
   );
 };
 
