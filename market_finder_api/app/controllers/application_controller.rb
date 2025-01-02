@@ -4,12 +4,10 @@ class ApplicationController < ActionController::Base
   include Pundit
   # since we are using cookie and requests are coming from external source include this
   skip_before_action :verify_authenticity_token, raise: false
-  helper_method :logged_in?, :current_user
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def logged_in?
-    # verify if a user id exists in the session
-    !!current_user
+    current_user.present?
   end
 
   def current_user

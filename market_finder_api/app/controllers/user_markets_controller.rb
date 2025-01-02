@@ -2,8 +2,9 @@
 
 class UserMarketsController < ApplicationController
   def create
+    return render json: { error: 'Not authenticated' }, status: :unauthorized unless logged_in?
+
     attributes = user_market_params.clone
-    # allows us to change an obj keeping a copy of the original
     attributes[:user_id] = current_user.id
     user_market = UserMarket.new(attributes)
     authorize user_market
@@ -18,6 +19,6 @@ class UserMarketsController < ApplicationController
   private
 
   def user_market_params
-    params.permit(:user_id, :market_id)
+    params.permit(:market_id)
   end
 end

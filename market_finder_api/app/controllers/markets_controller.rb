@@ -15,7 +15,7 @@ class MarketsController < ApplicationController
       if user
         render json: user.markets
       else
-        render json: { status: 401, message: 'User not found' }, status: :unauthorized
+        render json: { status: 404, message: 'User not found. Please check the user ID.' }, status: :not_found
       end
     else
       render json: cached_markets
@@ -23,18 +23,22 @@ class MarketsController < ApplicationController
   end
 
   def show
-    render json: @market
+    if @market
+      render json: @market
+    else
+      render json: { status: 404, message: 'Market not found' }, status: :not_found
+    end
   end
 
   private
 
   def set_market
     @market = Market.find_by(id: params[:id])
-    return if @market
-
-    render json: {
-      status: 404,
-      message: 'Market not found. Please check the market ID or search the list of markets.'
-    }, status: :not_found
+    unless @market
+      render json: {
+        status: 404,
+        message: 'Market not found. Please check the market ID or search the list of markets.'
+      }, status: :not_found
+    end
   end
 end

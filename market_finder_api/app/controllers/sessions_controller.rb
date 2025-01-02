@@ -14,9 +14,9 @@ class SessionsController < ApplicationController
 
   def logged_in
     if logged_in?
-      render json: { status: 201, user: current_user, logged_in: true }
+      render json: { status: 200, user: current_user, logged_in: true }
     else
-      render json: { status: 400, user: {}, logged_in: false }
+      render json: { status: 200, user: {}, logged_in: false }
     end
   end
 
