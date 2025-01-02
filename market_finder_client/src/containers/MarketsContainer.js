@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Markets from "../components/markets/Markets.js";
-import Market from "../components/markets/Market.js";
+import MarketCard from "../components/markets/Market.js";
 
 const MarketsContainer = (props) => {
   const [markets, setMarkets] = useState([]);
@@ -24,7 +24,7 @@ const MarketsContainer = (props) => {
     <Routes>
       <Route
         path=":market_id"
-        element={<Market userMarkets={props.userMarkets} markets={markets} />}
+        element={<MarketCard market={props.market} userMarkets={props.userMarkets}/>}
       />
       <Route
         path="/"

@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import MarketCard from "../markets/MarketCard.js";
 
 const Markets = (props) => {
-  let [filteredMarkets, setFilteredMarkets] = useState(props.markets);
+  const [borough, setBorough] = useState("default");
 
-  const filterByBorough = (borough) => {
-    setFilteredMarkets(
-      props.markets.filter((market) => market.borough === borough),
-    );
-  };
+  const filteredMarkets = useMemo(() => {
+    if (borough === "default") {
+      return props.markets;
+    } else {
+      return props.markets.filter((market) => market.borough === borough);
+    }
+  }, [borough, props.markets]);
 
   const handleOnChange = (e) => {
-    let borough = e.target.value;
-    if (borough !== "default") {
-      filterByBorough(borough);
-    }
+    const borough = e.target.value;
+    setBorough(borough);
   };
 
   return (
@@ -26,7 +26,7 @@ const Markets = (props) => {
           defaultValue={"default"}
           className="block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
-          <option value="default" disabled>
+          <option value="default">
             Filter by Borough
           </option>
           <option value="Brooklyn">Brooklyn</option>
