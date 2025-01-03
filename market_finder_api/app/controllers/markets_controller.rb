@@ -13,12 +13,17 @@ class MarketsController < ApplicationController
     if params[:user_id]
       user = User.find_by(id: params[:user_id])
       if user
-        render json: user.markets
+        begin
+          authorize user, :index?
+          render json: user.markets
+        rescue Pundit::NotAuthorizedError
+          render json: { status: 401, message: 'Unauthorized' }, status: :unauthorized
+        end
       else
-        render json: { status: 404, message: 'User not found. Please check the user ID.' }, status: :not_found
+        render json: { status: 404, message: 'User not found' }, status: :not_found
       end
     else
-      render json: cached_markets
+      render json: { status: 200, markets: cached_markets }
     end
   end
 

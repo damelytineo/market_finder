@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
   # since we are using cookie and requests are coming from external source include this
   skip_before_action :verify_authenticity_token, raise: false
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
