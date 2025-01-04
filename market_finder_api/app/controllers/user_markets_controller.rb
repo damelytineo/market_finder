@@ -7,12 +7,17 @@ class UserMarketsController < ApplicationController
     attributes = user_market_params.clone
     attributes[:user_id] = current_user.id
     user_market = UserMarket.new(attributes)
-    authorize user_market
 
-    if user_market.save
-      render json: user_market, status: :created
-    else
-      render json: { errors: user_market.errors.full_messages }, status: :unprocessable_entity
+    begin
+      authorize current_user, :create?
+
+      if user_market.save
+        render json: user_market, status: :created
+      else
+        render json: { errors: user_market.errors.full_messages }, status: :unprocessable_entity
+      end
+    rescue Pundit::NotAuthorizedError
+      render json: { error: 'Unauthorized' }, status: :unauthorized
     end
   end
 

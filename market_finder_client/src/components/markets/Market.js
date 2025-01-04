@@ -19,8 +19,29 @@ const Market = (props) => {
       credentials: "include",
       body: JSON.stringify({ market_id: id }),
     };
-    fetch("http://localhost:3000/user_markets", configObj);
-    setDisplayAdd(false);
+  
+    fetch("http://localhost:3000/user_markets", configObj)
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.errors ? data.errors.join(", ") : data.error);
+          });
+        }
+        return response.json();
+      })
+      .then(() => {
+        alert("Market added successfully!");
+        setDisplayAdd(false);
+      })
+      .catch((error) => {
+        if (error.message.includes("Unauthorized")) {
+          alert("You are not authorized to add this market.");
+        } else if (error.message.includes("Failed to fetch")) {
+          alert("Network error. Please try again later.");
+        } else {
+          console.error("An error occurred while adding the market:", error.message);
+        }
+      });
   };
 
   return (

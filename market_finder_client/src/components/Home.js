@@ -11,6 +11,9 @@ const Home = (props) => {
       .then((response) => response.json())
       .then((markets) => {
         setMarkets(markets);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }, [props.currentUser]);
 
@@ -54,20 +57,16 @@ const Home = (props) => {
       </nav>
 
       <Router>
-        {uMarkets.length > 0 ? (
-          <Routes>
-            <Route
-              path="/"
-              element={<UserMarkets userMarkets={uMarkets} />}
-            />
-            <Route
-              path="/markets"
-              element={<MarketsContainer userMarkets={uMarkets} />}
-            />
-          </Routes>
-        ) : (
-          <div>Loading...</div>
-        )}
+        <Routes>
+          <Route
+            path="/"
+            element={<UserMarkets userMarkets={uMarkets} />}
+          />
+          <Route
+            path="/markets"
+            element={<MarketsContainer userMarkets={uMarkets} />}
+          />
+        </Routes>
       </Router>
     </div>
   );

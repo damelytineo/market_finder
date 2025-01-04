@@ -7,6 +7,9 @@ class MarketsController < ApplicationController
     Rails.cache.fetch(:cached_markets) do
       Market.all
     end
+  rescue => e
+    Rails.logger.error("Error fetching cached markets: #{e.message}")
+    nil
   end
 
   def index
@@ -23,7 +26,12 @@ class MarketsController < ApplicationController
         render json: { status: 404, message: 'User not found' }, status: :not_found
       end
     else
-      render json: { status: 200, markets: cached_markets }
+      markets = cached_markets
+      if markets
+        render json: { status: 200, markets: markets }
+      else
+        render json: { status: 500, message: 'Unable to retrieve markets' }, status: :internal_server_error
+      end
     end
   end
 

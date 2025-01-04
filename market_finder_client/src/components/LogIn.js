@@ -5,7 +5,7 @@ const LogIn = (props) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const onSubmit= (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     if (!username || !password) {
       setError("Both username and password are required.");
@@ -21,19 +21,27 @@ const LogIn = (props) => {
       body: JSON.stringify({ username, password }),
     };
     fetch("http://localhost:3000/login", configObj)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.message);
+          });
+        }
+        return response.json();
+      })
       .then((userData) => {
-        props.handleLogin(userData);
+        props.setCurrentUser(userData.user.id);
       })
       .catch((error) => {
-        setError("Invalid username or password.");
+        console.error("An error occurred:", error);
+        setError(error.message);
       });
   };
 
   return (
     <div>
       <form className="space-y-4" onSubmit={onSubmit}>
-      {error && <div className="border px-4 py-3 rounded relative" role="alert">{error}</div>}
+        {error && <div className="border px-4 py-3 rounded relative" role="alert">{error}</div>}
         <div className="flex items-center space-x-4">
           <div className="w-1/4">
             <input
@@ -68,4 +76,5 @@ const LogIn = (props) => {
     </div>
   );
 };
+
 export default LogIn;

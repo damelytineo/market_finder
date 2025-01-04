@@ -5,20 +5,24 @@ import MarketCard from "../components/markets/Market.js";
 
 const MarketsContainer = (props) => {
   const [markets, setMarkets] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("http://localhost:3000/markets")
-      .then((response) => response.json())
-      .then((markets) => {
-        setMarkets(markets);
-        setLoading(false);
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.message);
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMarkets(data.markets || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching markets:", error);
       });
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Routes>

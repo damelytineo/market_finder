@@ -19,6 +19,9 @@ const App = () => {
         if (data.logged_in) {
           setCurrentUser(data.user.id);
         }
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
       });
   };
 
@@ -30,7 +33,7 @@ const App = () => {
             <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
           </LoadScript>
         ) : (
-          <LogIn handleLogin={handleLogin} />
+          <LogIn setCurrentUser={setCurrentUser} />
         )}
       </div>
     </div>
