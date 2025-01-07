@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserMarketPolicy < ApplicationPolicy
+class UserPolicy < ApplicationPolicy
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -9,6 +9,10 @@ class UserMarketPolicy < ApplicationPolicy
   end
 
   def create?
+    user.present? && record.id == user.id
+  end
+
+  def index?
     user.present? && record.id == user.id
   end
 end
