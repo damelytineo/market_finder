@@ -20,7 +20,9 @@ const LogIn = (props) => {
       credentials: "include",
       body: JSON.stringify({ username, password }),
     };
-    fetch("http://localhost:3000/login", configObj)
+    fetch("http://localhost:3000/login", configObj, {
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {

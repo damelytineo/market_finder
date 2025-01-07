@@ -20,7 +20,9 @@ const Market = (props) => {
       body: JSON.stringify({ market_id: id }),
     };
   
-    fetch("http://localhost:3000/user_markets", configObj)
+    fetch("http://localhost:3000/user_markets", configObj, {
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {

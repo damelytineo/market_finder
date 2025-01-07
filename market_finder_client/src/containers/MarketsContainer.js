@@ -7,7 +7,9 @@ const MarketsContainer = (props) => {
   const [markets, setMarkets] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/markets")
+    fetch("http://localhost:3000/markets", {
+      credentials: "include",
+    })
       .then((response) => {
         if (!response.ok) {
           return response.json().then((data) => {

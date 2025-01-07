@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
   include Pundit::Authorization
   # since we are using cookie and requests are coming from external source include this
   skip_before_action :verify_authenticity_token, raise: false
@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+    @current_user
   end
 
   private

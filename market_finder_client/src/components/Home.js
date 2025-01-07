@@ -7,7 +7,9 @@ const Home = (props) => {
   let [uMarkets, setMarkets] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${props.currentUser}/markets`)
+    fetch(`http://localhost:3000/users/${props.currentUser}/markets`, {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((markets) => {
         setMarkets(markets);
