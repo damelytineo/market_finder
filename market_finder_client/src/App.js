@@ -17,7 +17,7 @@ const App = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.logged_in) {
-          setCurrentUser(data.user.id);
+          setCurrentUser(data.user);
         }
       })
       .catch((error) => {

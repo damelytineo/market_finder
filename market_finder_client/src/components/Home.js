@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
 import UserMarkets from "../components/markets/UserMarkets.js";
-import MarketsContainer from "../containers/MarketsContainer.js";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Markets from "../components/markets/Markets.js";
+import { Routes, Route } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setPage } from "../paginationSlice.js";
 
 const Home = (props) => {
+  const dispatch = useDispatch();
   let [uMarkets, setMarkets] = useState([]);
+  const { page } = useSelector((state) => state.pagination);
+
 
   useEffect(() => {
-    fetch(`http://localhost:3000/users/${props.currentUser}/markets`, {
+    fetch(`http://localhost:3000/users/${props.currentUser.id}/markets?page=${page}`, {
       credentials: "include",
     })
       .then((response) => response.json())
-      .then((markets) => {
-        setMarkets(markets);
+      .then((data) => {
+        setMarkets(data.markets);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error:", error); 
       });
-  }, [props.currentUser]);
+  }, [dispatch, props.currentUser.id, page]);
 
   const logout = () => {
     let configObj = {
@@ -33,6 +38,10 @@ const Home = (props) => {
       .then(() => {
         props.setCurrentUser("");
       })
+  };
+
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
   };
 
   return (
@@ -58,18 +67,16 @@ const Home = (props) => {
         </div>
       </nav>
 
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={<UserMarkets userMarkets={uMarkets} />}
-          />
-          <Route
-            path="/markets"
-            element={<MarketsContainer userMarkets={uMarkets} />}
-          />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<UserMarkets userMarkets={uMarkets} handlePageChange={handlePageChange} page={page} />}
+        />
+        <Route
+          path="/markets"
+          element={<Markets userMarkets={uMarkets} handlePageChange={handlePageChange} page={page} />}
+        />
+      </Routes>
     </div>
   );
 };

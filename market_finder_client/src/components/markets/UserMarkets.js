@@ -1,7 +1,16 @@
 import React from "react";
 import MarketCard from "./MarketCard.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage } from "../../paginationSlice.js";
 
 const UserMarkets = (props) => {
+  const dispatch = useDispatch();
+  const { page } = useSelector((state) => state.pagination);
+
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
+  };
+
   return (
     <div className="space-y-4">
       <div className="text-lg font-semibold p-4">
@@ -19,6 +28,22 @@ const UserMarkets = (props) => {
           <p className="text-gray-600">No markets saved.</p>
         </div>
       )}
+
+      <div className="flex justify-center space-x-4">
+        <button
+          className="btn"
+          onClick={() => handlePageChange(page - 1)}
+          disabled={props.page === 1}
+        >
+          Previous
+        </button>
+        <button
+          className="btn"
+          onClick={() => handlePageChange(page + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
