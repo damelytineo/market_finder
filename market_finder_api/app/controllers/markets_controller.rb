@@ -13,25 +13,11 @@ class MarketsController < ApplicationController
   end
 
   def index
-    if params[:user_id]
-      user = User.find_by(id: params[:user_id])
-      if user
-        begin
-          authorize user, :index?
-          paginate(user.markets)
-        rescue Pundit::NotAuthorizedError
-          render json: { status: 401, message: 'Unauthorized' }, status: :unauthorized
-        end
-      else
-        render json: { status: 404, message: 'User not found' }, status: :not_found
-      end
+    markets = cached_markets
+    if markets
+      paginate(markets)
     else
-      markets = cached_markets
-      if markets
-        paginate(markets)
-      else
-        render json: { status: 500, message: 'Unable to retrieve markets' }, status: :internal_server_error
-      end
+      render json: { status: 500, message: 'Unable to retrieve markets' }, status: :internal_server_error
     end
   end
 
@@ -59,7 +45,10 @@ class MarketsController < ApplicationController
     paginated_collection = Kaminari.paginate_array(collection).page(params[:page]).per(params[:per_page] || 10)
     render json: {
       status: 200,
-      markets: paginated_collection
+      markets: paginated_collection,
+      meta: {
+        total_page_count: paginated_collection.total_pages
+      }
     }
   end
 end

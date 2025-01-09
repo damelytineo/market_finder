@@ -1,11 +1,11 @@
 import React from "react";
 import MarketCard from "./MarketCard.js";
 import { useDispatch, useSelector } from "react-redux";
-import { setPage } from "../../paginationSlice.js";
+import { setPage } from "../../userMarketsPaginationSlice.js";
 
 const UserMarkets = (props) => {
   const dispatch = useDispatch();
-  const { page } = useSelector((state) => state.pagination);
+  const { page, paginationMeta } = useSelector((state) => state.userMarketsPagination);
 
   const handlePageChange = (page) => {
     dispatch(setPage(page));
@@ -33,7 +33,7 @@ const UserMarkets = (props) => {
         <button
           className="btn"
           onClick={() => handlePageChange(page - 1)}
-          disabled={props.page === 1}
+          disabled={page === 1}
         >
           Previous
         </button>
@@ -44,6 +44,8 @@ const UserMarkets = (props) => {
           Next
         </button>
       </div>
+
+      <span> Page {page} of {paginationMeta.totalPageCount}</span>
     </div>
   );
 };

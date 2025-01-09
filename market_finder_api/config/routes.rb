@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :user_markets
 
   resources :users do
-    resources :markets
+    resources :markets, only: %i[index create], controller: 'user_markets'
   end
 
   post 'login', to: 'sessions#create'

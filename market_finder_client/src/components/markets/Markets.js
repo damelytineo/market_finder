@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import MarketCard from "../markets/MarketCard.js";
 import { useDispatch, useSelector } from "react-redux";
-import { setPage } from "../../paginationSlice.js";
+import { setPage, setTotalPageCount } from "../../marketsPaginationSlice.js";
 
 const Markets = (props) => {
   const dispatch = useDispatch();
   const [borough, setBorough] = useState("default");
-  const { page } = useSelector((state) => state.pagination);
+  const { page, paginationMeta } = useSelector((state) => state.marketsPagination);
   const [markets, setMarkets] = useState([]);
 
   const filteredMarkets = useMemo(() => {
@@ -40,6 +40,7 @@ const Markets = (props) => {
       })
       .then((data) => {
         setMarkets(data.markets || []);
+        dispatch(setTotalPageCount({ total_page_count: data.meta.total_page_count }));
       })
       .catch((error) => {
         console.error("Error fetching markets:", error);
@@ -87,6 +88,8 @@ const Markets = (props) => {
           Next
         </button>
       </div>
+
+      <span> Page {page} of {paginationMeta.totalPageCount}</span>
     </div>
   );
 };

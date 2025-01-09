@@ -3,12 +3,12 @@ import UserMarkets from "../components/markets/UserMarkets.js";
 import Markets from "../components/markets/Markets.js";
 import { Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setPage } from "../paginationSlice.js";
+import { setPage, setTotalPageCount } from "../userMarketsPaginationSlice.js";
 
 const Home = (props) => {
   const dispatch = useDispatch();
   let [uMarkets, setMarkets] = useState([]);
-  const { page } = useSelector((state) => state.pagination);
+  const { page } = useSelector((state) => state.userMarketsPagination);
 
 
   useEffect(() => {
@@ -18,6 +18,7 @@ const Home = (props) => {
       .then((response) => response.json())
       .then((data) => {
         setMarkets(data.markets);
+        dispatch(setTotalPageCount({ total_page_count: data.meta.total_page_count }));
       })
       .catch((error) => {
         console.error("Error:", error); 

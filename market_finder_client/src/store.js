@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import paginationReducer from './paginationSlice';
+import marketsPaginationReducer from './marketsPaginationSlice';
+import userMarketsPaginationReducer from './userMarketsPaginationSlice';
 
 const store = configureStore({
   reducer: {
-    pagination: paginationReducer,
+    marketsPagination: marketsPaginationReducer,
+    userMarketsPagination: userMarketsPaginationReducer,
   },
 });
 
