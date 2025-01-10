@@ -1,0 +1,5 @@
+weekly_market_refresh:
+  cron: "0 0 * * 0"
+  class: "MarketRefreshJob"
+  queue: "default"
+  description: "Refreshes the market data every Sunday at midnight."
