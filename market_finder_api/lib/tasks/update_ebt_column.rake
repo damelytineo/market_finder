@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-class MarketRefreshJob
-  include Sidekiq::Worker
-  sidekiq_options queue: :default, retry: false
-
-  def perform
-    markets = fetched_markets_from_api
+namespace :ebt_column do
+  desc 'Update EBT column in the markets table'
+  task update_ebt_column: :environment do
+    response = RestClient.get 'https://data.cityofnewyork.us/resource/8vwk-6iz2.json'
+    markets = JSON.parse(response)
 
     markets.each do |market_data|
       market = Market.find_or_initialize_by(
@@ -27,25 +26,11 @@ class MarketRefreshJob
           season_dates: market_data['seasondates'],
           ebt_accepted: market_data['accepts_ebt']
         )
-
-        unless market.save
-          Rails.logger.error("Error saving market #{market.name}: #{market.errors.full_messages.join(', ')}")
-        end
+      else
+        market.ebt_accepted = market_data['accepts_ebt']
       end
-    end
 
-    Rails.cache.delete(:cached_markets)
-  end
-
-  private
-
-  def fetched_markets_from_api
-    response = RestClient.get('https://data.cityofnewyork.us/resource/8vwk-6iz2.json')
-    if response.code == 200
-      JSON.parse(response.body)
-    else
-      Rails.logger.error('Failed to fetch markets data from API')
-      []
+      puts "Error saving market #{market.name}: #{market.errors.full_messages.join(', ')}" unless market.save
     end
   end
 end

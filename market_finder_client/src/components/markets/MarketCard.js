@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Market from "../markets/Market.js";
+import { CreditCardIcon } from '@heroicons/react/24/outline'
 
 const MarketCard = (props) => {
   let [displayMarket, setDisplayMarket] = useState(false);
@@ -23,6 +24,13 @@ const MarketCard = (props) => {
           >
             MORE...
           </button>
+
+          {props.market.ebt_accepted?.toLowerCase() === "yes" && (
+            <CreditCardIcon
+              style={{ width: '28px', height: '28px' }}
+              className="text-gray-700 float-right"
+            />
+          )}
         </div>
       )}
     </div>
