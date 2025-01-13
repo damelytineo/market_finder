@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import MarketCard from "../markets/MarketCard.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage, setTotalPageCount } from "../../marketsPaginationSlice.js";
@@ -9,13 +9,6 @@ const Markets = (props) => {
   const { page, paginationMeta } = useSelector((state) => state.marketsPagination);
   const [markets, setMarkets] = useState([]);
 
-  const filteredMarkets = useMemo(() => {
-    if (borough === "default") {
-      return markets;
-    } else {
-      return markets.filter((market) => market.borough === borough);
-    }
-  }, [borough, markets]);
 
   const handleOnChange = (e) => {
     const borough = e.target.value;
@@ -27,7 +20,7 @@ const Markets = (props) => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/markets?page=${page}`, {
+    fetch(`http://localhost:3000/markets?page=${page}&borough=${borough}`, {
       credentials: "include",
     })
       .then((response) => {
@@ -45,7 +38,7 @@ const Markets = (props) => {
       .catch((error) => {
         console.error("Error fetching markets:", error);
       });
-  }, [dispatch, page]);
+  }, [dispatch, page, borough]);
 
   return (
     <div className="space-y-4">
@@ -67,7 +60,7 @@ const Markets = (props) => {
         </select>
       </div>
 
-      {filteredMarkets.map((market) => (
+      {markets.map((market) => (
         <div key={market.id} className="market-card">
           <MarketCard market={market} userMarkets={props.userMarkets} />
         </div>

@@ -15,6 +15,12 @@ class MarketsController < ApplicationController
   def index
     markets = cached_markets
     if markets
+      boroughs = ["Manhattan", "Brooklyn", "Queens", "Staten Island", "Bronx"]
+
+      if boroughs.include?(params[:borough])
+        markets = markets.select { |market| market.borough == params[:borough] }
+      end
+
       paginate(markets)
     else
       render json: { status: 500, message: 'Unable to retrieve markets' }, status: :internal_server_error
