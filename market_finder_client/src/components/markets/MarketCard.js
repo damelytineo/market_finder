@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Market from "../markets/Market.js";
-import { CreditCardIcon } from '@heroicons/react/24/outline'
+import { CreditCardIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const MarketCard = (props) => {
   let [displayMarket, setDisplayMarket] = useState(false);
@@ -18,7 +18,13 @@ const MarketCard = (props) => {
   return (
     <div>
       {displayMarket ? (
-        <Market market={props.market} userMarkets={props.userMarkets} handleDisplay={handleDisplay} setDisplayAdd={setDisplayAdd} displayAdd={displayAdd} />
+        <div>
+          <button onClick={() => handleDisplay(false)}>
+            <XMarkIcon style={{ width: '28px', height: '28px' }} className="text-gray-700 float-right" />
+          </button>
+
+          <Market market={props.market} userMarkets={props.userMarkets} handleDisplay={handleDisplay} setDisplayAdd={setDisplayAdd} displayAdd={displayAdd} />
+        </div>
       ) : (
         <div className="p-4 bg-white rounded-lg shadow-md">
           <p className="font-semibold">{props.market.name}</p>
