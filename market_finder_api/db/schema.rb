@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_10_192252) do
+ActiveRecord::Schema.define(version: 2025_01_13_204004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2025_01_10_192252) do
     t.integer "market_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "market_id"], name: "index_user_markets_on_user_id_and_market_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
