@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { Map, AdvancedMarker} from '@vis.gl/react-google-maps';
 
-const Map = React.memo((props) => {
+const GoogleMap = React.memo((props) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef();
   const containerStyle = {
@@ -38,12 +38,12 @@ const Map = React.memo((props) => {
   return (
     <div ref={ref} style={{ height: "300px", width: "300px" }}>
       {isVisible && (
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
-          <Marker position={center} />
-        </GoogleMap>
+        <Map style={containerStyle} defaultCenter={center} defaultZoom={15} mapId={`${props.marketId}`}>
+          <AdvancedMarker position={center}/>
+        </Map>
       )}
     </div>
   );
 });
 
-export default Map;
+export default GoogleMap;

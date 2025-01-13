@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Map from "../Map.js";
+import GoogleMap from "../GoogleMap.js";
 
 const Market = (props) => {
   let [displayAdd, setDisplayAdd] = useState(true);
@@ -50,9 +50,10 @@ const Market = (props) => {
     <div>
       <h5 className="text-lg font-semibold">{props.market.name}</h5>
 
-      <Map
+      <GoogleMap
         latitude={props.market.latitude}
         longitude={props.market.longitude}
+        marketId={props.market.id}
       />
 
       {displayAdd && (

@@ -77,13 +77,14 @@ const Markets = (props) => {
         <button
           className="btn"
           onClick={() => handlePageChange(page - 1)}
-          disabled={props.page === 1}
+          disabled={page === 1}
         >
           Previous
         </button>
         <button
           className="btn"
           onClick={() => handlePageChange(page + 1)}
+          disabled={page === paginationMeta.totalPageCount}
         >
           Next
         </button>
