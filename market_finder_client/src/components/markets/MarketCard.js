@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Market from "../markets/Market.js";
 import { CreditCardIcon } from '@heroicons/react/24/outline'
 
 const MarketCard = (props) => {
   let [displayMarket, setDisplayMarket] = useState(false);
+  let [displayAdd, setDisplayAdd] = useState(true);
 
-  const handleDisplay = () => {
-    setDisplayMarket(true);
+  useEffect(() => {
+    const marketExists = props.userMarkets.some((userMarket) => userMarket.id === props.market.id);
+    setDisplayAdd(!marketExists);
+  }, [props.userMarkets, props.market.id]);
+
+  const handleDisplay = (value) => {
+    setDisplayMarket(value);
   };
 
   return (
     <div>
       {displayMarket ? (
-        <Market market={props.market} userMarkets={props.userMarkets} />
+        <Market market={props.market} userMarkets={props.userMarkets} handleDisplay={handleDisplay} setDisplayAdd={setDisplayAdd} displayAdd={displayAdd} />
       ) : (
         <div className="p-4 bg-white rounded-lg shadow-md">
           <p className="font-semibold">{props.market.name}</p>
@@ -20,7 +26,7 @@ const MarketCard = (props) => {
           <p className="text-gray-600">{props.market.borough}</p>
           <button
             className="btn"
-            onClick={handleDisplay}
+            onClick={() => handleDisplay(true)}
           >
             MORE...
           </button>

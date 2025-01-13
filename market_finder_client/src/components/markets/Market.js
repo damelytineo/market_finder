@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from "react";
 import GoogleMap from "../GoogleMap.js";
 
 const Market = (props) => {
-  let [displayAdd, setDisplayAdd] = useState(true);
-
-  useEffect(() => {
-    const marketExists = props.userMarkets.some((userMarket) => userMarket.id === props.market.id);
-    setDisplayAdd(!marketExists);
-  }, [props.userMarkets, props.market.id]);
-
-  const handleAdd = (id) => {
+    const handleAdd = (id) => {
     let configObj = {
       method: "POST",
       headers: {
@@ -33,7 +25,8 @@ const Market = (props) => {
       })
       .then(() => {
         alert("Market added successfully!");
-        setDisplayAdd(false);
+        props.setDisplayAdd(false);
+        props.handleDisplay(false);
       })
       .catch((error) => {
         if (error.message.includes("Unauthorized")) {
@@ -56,7 +49,7 @@ const Market = (props) => {
         marketId={props.market.id}
       />
 
-      {displayAdd && (
+      {props.displayAdd && (
         <button
           className="btn"
           value={props.market.id}
