@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_13_204004) do
+ActiveRecord::Schema.define(version: 2025_01_14_052557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,10 +24,14 @@ ActiveRecord::Schema.define(version: 2025_01_13_204004) do
     t.float "longitude"
     t.string "days_of_operation"
     t.string "hours"
-    t.string "season_dates"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ebt_accepted"
+    t.date "season_begin"
+    t.date "season_end"
+    t.time "open_time"
+    t.time "close_time"
+    t.index ["open_time", "close_time", "season_begin", "season_end", "days_of_operation"], name: "index_markets_on_time_and_season"
   end
 
   create_table "user_markets", force: :cascade do |t|

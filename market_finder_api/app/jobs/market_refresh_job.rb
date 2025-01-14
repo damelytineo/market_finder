@@ -15,6 +15,20 @@ class MarketRefreshJob
       )
 
       if market.new_record?
+        # Parse hours to get open and closing times
+        times = market_data['hoursoperations'].split('-').map(&:strip)
+
+        if times.size >= 2
+          begin
+            open_time = Time.parse(times[0])
+            close_time = Time.parse(times[1])
+          rescue ArgumentError => e
+            Rails.logger.warn "Failed to parse hours for Market ID #{market.id}: #{e.message}"
+          end
+        else
+          Rails.logger.warn "Market ID #{market.id} has an invalid hours format: #{market.hours}"
+        end
+
         market.assign_attributes(
           name: market_data['marketname'],
           borough: market_data['borough'],
@@ -24,13 +38,16 @@ class MarketRefreshJob
           longitude: market_data['longitude'],
           days_of_operation: market_data['daysoperation'],
           hours: market_data['hoursoperation'],
-          season_dates: market_data['seasondates'],
-          ebt_accepted: market_data['accepts_ebt']
+          ebt_accepted: market_data['accepts_ebt'],
+          season_begin: market_data['season_begin'],
+          season_end: market_data['season_end'],
+          open_time: open_time,
+          close_time: close_time
         )
+      end
 
-        unless market.save
-          Rails.logger.error("Error saving market #{market.name}: #{market.errors.full_messages.join(', ')}")
-        end
+      unless market.save
+        Rails.logger.error("Error saving market #{market.name}: #{market.errors.full_messages.join(', ')}")
       end
     end
 
