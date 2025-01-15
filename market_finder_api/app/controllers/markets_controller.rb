@@ -21,7 +21,13 @@ class MarketsController < ApplicationController
         markets = markets.select { |market| market.borough == params[:borough] }
       end
 
-      paginate(markets)
+      if params[:open] == "true"
+        markets = Market.currently_open
+      end
+
+      if markets
+        paginate(markets)
+      end
     else
       render json: { status: 500, message: 'Unable to retrieve markets' }, status: :internal_server_error
     end
