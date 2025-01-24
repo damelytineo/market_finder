@@ -62,3 +62,5 @@ gem 'kaminari'
 
 gem 'sidekiq-scheduler'
 gem 'sidekiq'
+
+gem 'graphql'
