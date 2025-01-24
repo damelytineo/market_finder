@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MarketCard from "../markets/MarketCard.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage, setTotalPageCount } from "../../marketsPaginationSlice.js";
+import { gql, useQuery } from '@apollo/client';
 
 const Markets = (props) => {
   const dispatch = useDispatch();
@@ -25,26 +26,34 @@ const Markets = (props) => {
     setOpenNow((prevOpen) => !prevOpen);
   };
 
+  const GET_MARKETS = gql`
+    query GetMarkets($borough: String, $page: Int!, $open: Boolean) {
+      markets(borough: $borough, page: $page, open: $open) {
+        id
+        name
+        borough
+        street_address
+        open_time
+        close_time
+      }
+    }
+  `;
+
+  const { error, data } = useQuery(GET_MARKETS, {
+    variables: { borough, page, open },
+  });
+
   useEffect(() => {
-    fetch(`http://localhost:3000/markets?page=${page}&borough=${borough}&open=${open}`, {
-      credentials: "include",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((data) => {
-            throw new Error(data.message);
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMarkets(data.markets || []);
-        dispatch(setTotalPageCount({ total_page_count: data.meta.total_page_count }));
-      })
-      .catch((error) => {
-        console.error("Error fetching markets:", error);
-      });
-  }, [dispatch, page, borough, open]);
+    if (data) {
+      setMarkets(data.markets || []);
+      dispatch(setTotalPageCount({ total_page_count: data.meta.total_page_count }));
+    }
+  }, [data, dispatch]);
+
+  if (error) {
+    console.error("Error fetching markets:", error);
+    throw new Error(error.message || "An unknown error occurred.");
+  }
 
   return (
     <div className="space-y-4">
