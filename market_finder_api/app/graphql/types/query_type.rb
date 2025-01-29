@@ -6,9 +6,8 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :markets, [Types::MarketType], null: true do
+    field :markets, Types::MarketType.connection_type, null: false do
       argument :borough, String, required: false
-      argument :page, Int, required: true
       argument :open, Boolean, required: false
     end
 
@@ -26,15 +25,29 @@ module Types
       Market.find(id)
     end
 
-    def markets(borough: nil, page:, open: false)
+    def markets(args)
       markets = Market.all
+      borough = args[:borough]
+      open = args[:open]
+      first = args[:first]
+      after = args[:after]
       if markets
         markets = filter_by_borough(markets, borough)
 
         markets = filter_by_open_status(markets, open)
 
-        paginate(markets, page)
+        if after
+          markets = markets.where("id > ?", after)
+        end
+
+        if first
+          markets = markets.limit(first)
+        end
       end
+
+      connection = GraphQL::Pagination::Connection.new(markets, first, after)
+
+      connection
     end
 
     def user(id:)
@@ -64,10 +77,6 @@ module Types
 
       current_time = Time.now
       markets.where("open_time <= ?", current_time).where("close_time >= ?", current_time)
-    end
-
-    def paginate(markets, page)
-      markets.limit(10).offset((page - 1) * 10)
     end
   end
 end

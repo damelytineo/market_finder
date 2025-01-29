@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import MarketCard from "../markets/MarketCard.js";
-import { useDispatch, useSelector } from "react-redux";
-import { setPage, setTotalPageCount } from "../../marketsPaginationSlice.js";
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from "@apollo/client";
 
 const Markets = (props) => {
-  const dispatch = useDispatch();
   const [borough, setBorough] = useState("default");
-  const { page, paginationMeta } = useSelector((state) => state.marketsPagination);
   const [markets, setMarkets] = useState([]);
   const [open, setOpenNow] = useState(false);
+  const [pageInfo, setPageInfo] = useState({ });
 
 
   const handleOnChange = (e) => {
@@ -17,9 +14,6 @@ const Markets = (props) => {
     setBorough(borough);
   };
 
-  const handlePageChange = (page) => {
-    dispatch(setPage(page));
-  };
 
   const processOpenNow = () => {
     // toggle open state
@@ -27,33 +21,73 @@ const Markets = (props) => {
   };
 
   const GET_MARKETS = gql`
-    query GetMarkets($borough: String, $page: Int!, $open: Boolean) {
-      markets(borough: $borough, page: $page, open: $open) {
-        id
-        name
-        borough
-        street_address
-        open_time
-        close_time
+    query GetMarkets($borough: String, $open: Boolean, $first: Int, $after: String) {
+      markets(borough: $borough, open: $open, first: $first, after: $after) {
+        edges {
+          cursor
+          node {
+            id
+            name
+            borough
+            streetAddress
+            latitude
+            longitude
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
     }
   `;
 
-  const { error, data } = useQuery(GET_MARKETS, {
-    variables: { borough, page, open },
+  const { data, fetchMore } = useQuery(GET_MARKETS, {
+    variables: {
+      borough: borough === "default" ? null : borough,
+      open: open,
+      first: 10,
+      after: pageInfo?.endCursor || null,
+    },
+    onCompleted: (data) => {
+      if (data?.markets?.pageInfo) {
+        setPageInfo(data.markets.pageInfo);
+      }
+    },
   });
+
+  const loadMoreMarkets = () => {
+    if (data?.markets?.pageInfo?.hasNextPage) {
+      fetchMore({
+        variables: {
+          after: data.markets.pageInfo.endCursor,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return prev;
+          return {
+            ...prev,
+            markets: {
+              ...prev.markets,
+              edges: [...prev.markets.edges, ...fetchMoreResult.markets.edges],
+              pageInfo: fetchMoreResult.markets.pageInfo,
+            },
+          };
+        },
+      });
+    }
+  };
 
   useEffect(() => {
     if (data) {
-      setMarkets(data.markets || []);
-      dispatch(setTotalPageCount({ total_page_count: data.meta.total_page_count }));
+      setMarkets(data.markets.edges.map(edge => edge.node));
+      setPageInfo(data.markets.pageInfo);
     }
-  }, [data, dispatch]);
+  }, [data, setPageInfo]);
 
-  if (error) {
-    console.error("Error fetching markets:", error);
-    throw new Error(error.message || "An unknown error occurred.");
-  }
+  // if (error) {
+  //   console.error("Error fetching markets:", error);
+  //   throw new Error(error.message || "An unknown error occurred.");
+  // }
 
   return (
     <div className="space-y-4">
@@ -95,26 +129,25 @@ const Markets = (props) => {
           <div className="flex justify-center space-x-4">
             <button
               className="btn"
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
+              disabled={!pageInfo.hasPreviousPage}
             >
               Previous
             </button>
             <button
               className="btn"
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === paginationMeta.totalPageCount}
+              onClick={loadMoreMarkets}
+              disabled={!pageInfo.hasNextPage}
             >
               Next
             </button>
           </div>
 
-          <span> Page {page} of {paginationMeta.totalPageCount}</span>
+          <span> Page {pageInfo.currentPage} of {pageInfo.totalPages} </span>
         </div>
       ) : (
         <div>
            <p className="text-center text-gray-600 mt-8">
-              No markets found. Check out the <a href="/markets" class="text-blue-500 underline hover:text-blue-700">Markets</a> tab for more options!
+              No markets found. Check out the <a href="/markets" className="text-blue-500 underline hover:text-blue-700">Markets</a> tab for more options!
             </p>
         </div>
       )}

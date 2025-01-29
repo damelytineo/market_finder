@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
+  match '/graphql', to: 'graphql#execute', via: [:post, :get]
+
   resources :markets, only: %i[index show]
   resources :sessions
   resources :user_markets
