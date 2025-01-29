@@ -66,4 +66,4 @@ gem 'sidekiq'
 
 gem 'did_you_mean', '~> 1.5'
 
-gem 'graphql'
+gem "graphql", "~> 2.4"

@@ -45,9 +45,7 @@ module Types
         end
       end
 
-      connection = GraphQL::Pagination::Connection.new(markets, first, after)
-
-      connection
+      markets
     end
 
     def user(id:)

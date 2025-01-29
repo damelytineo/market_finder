@@ -109,9 +109,10 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.4.8)
+    graphql (2.4.9)
       base64
       fiber-storage
+      logger
     http-accept (1.7.0)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
@@ -326,7 +327,7 @@ DEPENDENCIES
   byebug
   capybara
   did_you_mean (~> 1.5)
-  graphql
+  graphql (~> 2.4)
   kaminari
   listen (~> 3.5)
   pg

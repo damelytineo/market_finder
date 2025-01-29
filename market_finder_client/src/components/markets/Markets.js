@@ -36,19 +36,21 @@ const Markets = (props) => {
         }
         pageInfo {
           hasNextPage
+          hasPreviousPage
           endCursor
         }
       }
     }
   `;
+  const variables = useMemo(() => ({
+    borough: borough === "default" ? null : borough,
+    open,
+    first: 10,
+    after: pageInfo?.endCursor || null,
+  }), [borough, open]);
 
   const { data, fetchMore } = useQuery(GET_MARKETS, {
-    variables: {
-      borough: borough === "default" ? null : borough,
-      open: open,
-      first: 10,
-      after: pageInfo?.endCursor || null,
-    },
+    variables,
     onCompleted: (data) => {
       if (data?.markets?.pageInfo) {
         setPageInfo(data.markets.pageInfo);
@@ -79,10 +81,10 @@ const Markets = (props) => {
 
   useEffect(() => {
     if (data) {
-      setMarkets(data.markets.edges.map(edge => edge.node));
-      setPageInfo(data.markets.pageInfo);
+        setMarkets(data.markets.edges.map((edge) => edge.node));
+        setPageInfo(data.markets.pageInfo);
     }
-  }, [data, setPageInfo]);
+  }, [data]);
 
   // if (error) {
   //   console.error("Error fetching markets:", error);
@@ -142,7 +144,7 @@ const Markets = (props) => {
             </button>
           </div>
 
-          <span> Page {pageInfo.currentPage} of {pageInfo.totalPages} </span>
+          {/* <span> Page {pageInfo.currentPage} of {pageInfo.totalPages} </span> */}
         </div>
       ) : (
         <div>
