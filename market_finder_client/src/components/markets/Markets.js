@@ -7,7 +7,7 @@ const Markets = (props) => {
   const [markets, setMarkets] = useState([]);
   const [open, setOpenNow] = useState(false);
   const [pageInfo, setPageInfo] = useState({ });
-
+  const [history, setHistory] = useState([]);
 
   const handleOnChange = (e) => {
     const borough = e.target.value;
@@ -49,11 +49,12 @@ const Markets = (props) => {
     after: pageInfo?.endCursor || null,
   }), [borough, open]);
 
-  const { data, fetchMore } = useQuery(GET_MARKETS, {
+  const { data, error, fetchMore } = useQuery(GET_MARKETS, {
     variables,
     onCompleted: (data) => {
       if (data?.markets?.pageInfo) {
         setPageInfo(data.markets.pageInfo);
+        setHistory((prev) => [...prev, data.markets.pageInfo.endCursor]);
       }
     },
   });
@@ -65,12 +66,10 @@ const Markets = (props) => {
           after: data.markets.pageInfo.endCursor,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
-          if (!fetchMoreResult) return prev;
+          if (!fetchMoreResult || !fetchMoreResult.markets) return prev;
           return {
-            ...prev,
             markets: {
-              ...prev.markets,
-              edges: [...prev.markets.edges, ...fetchMoreResult.markets.edges],
+              edges: [...fetchMoreResult.markets.edges],
               pageInfo: fetchMoreResult.markets.pageInfo,
             },
           };
@@ -79,6 +78,26 @@ const Markets = (props) => {
     }
   };
 
+  const loadPreviousMarkets = () => {
+    if (history.length > 1) {
+      fetchMore({
+        variables: {
+          after: history[history.length - 2],
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult || !fetchMoreResult.markets) return prev;
+          return {
+            markets: {
+              edges: [...fetchMoreResult.markets.edges],
+              pageInfo: fetchMoreResult.markets.pageInfo,
+            },
+          };
+        },
+      });
+      setHistory((prev) => prev.slice(0, prev.length - 1));
+    }
+  };  
+
   useEffect(() => {
     if (data) {
         setMarkets(data.markets.edges.map((edge) => edge.node));
@@ -86,10 +105,10 @@ const Markets = (props) => {
     }
   }, [data]);
 
-  // if (error) {
-  //   console.error("Error fetching markets:", error);
-  //   throw new Error(error.message || "An unknown error occurred.");
-  // }
+  if (error) {
+    console.error("Error fetching markets:", error);
+    throw new Error(error.message || "An unknown error occurred.");
+  }
 
   return (
     <div className="space-y-4">
@@ -131,20 +150,17 @@ const Markets = (props) => {
           <div className="flex justify-center space-x-4">
             <button
               className="btn"
-              disabled={!pageInfo.hasPreviousPage}
+              onClick={loadPreviousMarkets}
             >
               Previous
             </button>
             <button
               className="btn"
               onClick={loadMoreMarkets}
-              disabled={!pageInfo.hasNextPage}
             >
               Next
             </button>
           </div>
-
-          {/* <span> Page {pageInfo.currentPage} of {pageInfo.totalPages} </span> */}
         </div>
       ) : (
         <div>
